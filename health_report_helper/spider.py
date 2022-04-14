@@ -7,6 +7,7 @@ import json
 import requests
 import config
 import logging
+import get_order_time
 
 from uniform_login.uniform_login_spider import login
 import utils
@@ -26,7 +27,7 @@ def get_apply_list(cookies):
         raise e
 
 
-def do_apply(cookies, WID, location):
+def do_apply(cookies, WID, location, time):
     try:
         response = requests.get(
             url='http://ehallapp.nju.edu.cn/xgfw/sys/yqfxmrjkdkappnju/apply/saveApplyInfos.do',
@@ -36,7 +37,9 @@ def do_apply(cookies, WID, location):
                 IS_HAS_JKQK=1,
                 JRSKMYS=1,
                 JZRJRSKMYS=1,
-                CURR_LOCATION=location
+                CURR_LOCATION=location,
+                ZJHSJCSJ=time,
+                SFZJLN=0
             ),
             headers=config.HEADERS,
             cookies=cookies
@@ -48,7 +51,7 @@ def do_apply(cookies, WID, location):
         raise e
 
 
-def main(username, password, location):
+def main(username, password, location, time):
     # 登录
     cookies = login(username, password, 'http://ehallapp.nju.edu.cn/xgfw/sys/yqfxmrjkdkappnju/apply/getApplyInfoList.do')
     # 获取填报列表
@@ -56,4 +59,4 @@ def main(username, password, location):
     if not apply_list[0]['TBRQ'] == utils.get_GMT8_str('%Y-%m-%d'):
         raise Exception("当日健康填报未发布")
     # 填报当天
-    do_apply(cookies, apply_list[0]['WID'], location)
+    do_apply(cookies, apply_list[0]['WID'], location, time)
