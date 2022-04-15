@@ -36,6 +36,9 @@ def create_session(username: str, secret: str, nju_edu_cn_cookies: dict):
     cur_try, max_try = 0, 10
     while cur_try < max_try:
         s = requests.Session()
+        for k,v in nju_edu_cn_cookies.items():
+            cookie = cookies.create_cookie(k, v, domain='.nju.edu.cn')
+            s.cookies.set_cookie(cookie)
         s.get('http://ndyy.nju.edu.cn/NewWeb/')
         verification_resp = s.get('http://ndyy.nju.edu.cn/NewWeb/Ashx/Captcha.ashx?w=80&h=36?')
         res = verification(verification_resp.content)
@@ -48,9 +51,6 @@ def create_session(username: str, secret: str, nju_edu_cn_cookies: dict):
 
     if cur_try == max_try:
         return None
-    for k,v in nju_edu_cn_cookies.items():
-        cookie = cookies.create_cookie(k, v, domain='.nju.edu.cn')
-        s.cookies.set_cookie(cookie)
     return s
 
 def get_order_time(s: requests.Session):
