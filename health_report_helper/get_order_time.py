@@ -31,7 +31,6 @@ def verification(img: bytes):
     ocr = ddddocr.DdddOcr(old=True)
     return ocr.classification(buf.getvalue())
 
-login = None
 def create_session(username: str, secret: str, nju_edu_cn_cookies: dict):
     cur_try, max_try = 0, 10
     while cur_try < max_try:
@@ -43,7 +42,6 @@ def create_session(username: str, secret: str, nju_edu_cn_cookies: dict):
         verification_resp = s.get('http://ndyy.nju.edu.cn/NewWeb/Ashx/Captcha.ashx?w=80&h=36?')
         res = verification(verification_resp.content)
 
-        global login
         login = s.post('http://ndyy.nju.edu.cn/NewWeb/Ashx/Login.ashx?action=login', params={'params':'{}^{}^{}'.format(username,secret,res)})
         if login.text == '1':
             break
