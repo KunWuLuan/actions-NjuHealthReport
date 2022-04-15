@@ -32,17 +32,17 @@ if __name__ == '__main__':
 
             spider.main(config.data['username'], config.data['password'], config.data['location'], latest_test_time)
 
-            # new_secret = {
-            #     'username':config.data['username'],
-            #     'password':config.data['password'],
-            #     'location':config.data['location'],
-            #     'secret':config.data['secret'],
-            #     'cookies':config.data['cookies'],
-            #     'default_time':latest_test_time,
-            #     'git_username':config.data['git_username'],
-            #     'secret_name':config.data['secret_name'],
-            # }
-            # secret_update.update_secret(sys.argv[2], config.data['git_account'], config.data['git_username'], config.data['secret_name'], json.dumps(new_secret))
+            new_secret = {
+                'username':config.data['username'],
+                'password':config.data['password'],
+                'location':config.data['location'],
+                'secret':config.data['secret'],
+                'cookies':config.data['cookies'],
+                'default_time':latest_test_time,
+                'git_username':config.data['git_username'],
+                'secret_name':config.data['secret_name'],
+            }
+            secret_update.update_secret(sys.argv[2], config.data['git_account'], config.data['git_username'], config.data['secret_name'], json.dumps(new_secret))
             break
         except Exception as e:
             if _ == 4:
