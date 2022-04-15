@@ -32,7 +32,7 @@ def verification(img: bytes):
     return ocr.classification(buf.getvalue())
 
 login = None
-def create_session(username: str, secret: str, nju_edu_cn_cookies: dict[str:str]):
+def create_session(username: str, secret: str, nju_edu_cn_cookies: dict):
     cur_try, max_try = 0, 10
     while cur_try < max_try:
         s = requests.Session()
