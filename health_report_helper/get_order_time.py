@@ -65,7 +65,7 @@ def get_order_time(s: requests.Session):
             t.append('2022-{}-{} 9'.format(*re.match(p, time).groups()))
     return t
 
-def compare_time(default_time: str, order_time: list[str]):
+def compare_time(default_time: str, order_time: list):
     import time
     import datetime
     from pytz import timezone
