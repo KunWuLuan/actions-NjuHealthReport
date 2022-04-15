@@ -9,6 +9,7 @@ import ddddocr
 import io
 import PIL.Image
 import re
+import config
 
 def convert_Image(img, standard=210):
     image = img.convert('L')
@@ -35,6 +36,7 @@ def create_session(username: str, secret: str, nju_edu_cn_cookies: dict):
     cur_try, max_try = 0, 10
     while cur_try < max_try:
         s = requests.Session()
+        s.headers = config.HEADERS1
         for k,v in nju_edu_cn_cookies.items():
             cookie = cookies.create_cookie(k, v, domain='.nju.edu.cn')
             s.cookies.set_cookie(cookie)

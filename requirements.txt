@@ -4,4 +4,4 @@ pycryptodome
 pycryptodomex
 PyNaCl
 pytz
-requests
+requests==2.26.0
