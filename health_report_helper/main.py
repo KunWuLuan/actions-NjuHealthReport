@@ -17,6 +17,8 @@ import get_order_time
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
+        print(sys.argv[1],end='\n')
+        print(re.sub('#(.*)\n', '\n', sys.argv[1]).replace("'", '"'),end='\n')
         config.data = json.loads(re.sub('#(.*)\n', '\n', sys.argv[1]).replace("'", '"'))
         # 以下为本地测试使用
         # print(re.sub(r'\\\'', '\'', sys.argv[1]).replace("'", '"'))
