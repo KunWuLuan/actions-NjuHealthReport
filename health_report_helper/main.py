@@ -18,7 +18,7 @@ import get_order_time
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         # print(sys.argv[1],end='\n')
-        print(re.sub('#(.*)\n', '\n', sys.argv[1]).replace("'", '"'),end='\n')
+        # print(re.sub('#(.*)\n', '\n', sys.argv[1]).replace("'", '"'),end='\n')
         config.data = json.loads(re.sub('#(.*)\n', '\n', sys.argv[1]).replace("'", '"'))
         # 以下为本地测试使用
         # print(re.sub(r'\\\'', '\'', sys.argv[1]).replace("'", '"'))
@@ -46,7 +46,7 @@ if __name__ == '__main__':
                 'deadline': config.data['deadline'],
                 'git_account': config.data['git_account']
             }
-            print(json.dumps(new_secret).replace('\"','\\\"'))
+            # print(json.dumps(new_secret).replace('\"','\\\"'))
             secret_update.update_secret(sys.argv[2], config.data['git_account'], config.data['git_username'], config.data['secret_name'], json.dumps(new_secret).replace('\"','\\\"'))
             break
         except Exception as e:
