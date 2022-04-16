@@ -35,8 +35,10 @@ HEADERS = {
     "Accept-Language":"zh-CN,en-US;q=0.8",
     "X-Requested-With":"com.wisedu.cpdaily.nju",
 }
+
 HEADERS1 = {
     "Host":"ndyy.nju.edu.cn",
+    "User-Agent":"Mozilla/5.0 (Linux; Android 6.0.1; k30pro Build/V417IR; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.100 Mobile Safari/537.36  cpdaily/8.2.15 wisedu/8.2.15",
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
     "accept-language": "zh-CN,zh;q=0.9",
     "cache-control": "no-cache",
