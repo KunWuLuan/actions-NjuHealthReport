@@ -43,7 +43,8 @@ if __name__ == '__main__':
                 'default_time':latest_test_time,
                 'git_username':config.data['git_username'],
                 'secret_name':config.data['secret_name'],
-                'deadline': config.data['deadline']
+                'deadline': config.data['deadline'],
+                'git_account': config.data['git_account']
             }
             print(json.dumps(new_secret).replace('\"','\\\"'))
             secret_update.update_secret(sys.argv[2], config.data['git_account'], config.data['git_username'], config.data['secret_name'], json.dumps(new_secret).replace('\"','\\\"'))
