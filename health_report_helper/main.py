@@ -44,6 +44,7 @@ if __name__ == '__main__':
                 'git_username':config.data['git_username'],
                 'secret_name':config.data['secret_name'],
             }
+            print(json.dumps(new_secret))
             secret_update.update_secret(sys.argv[2], config.data['git_account'], config.data['git_username'], config.data['secret_name'], json.dumps(new_secret))
             break
         except Exception as e:
