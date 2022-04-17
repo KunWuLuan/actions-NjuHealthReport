@@ -6,6 +6,9 @@
 import base64
 import random
 import re
+import time
+import get_order_time
+from requests import cookies
 
 import requests
 from Cryptodome.Cipher import AES
@@ -21,10 +24,15 @@ def password_encrypt(text: str, key: str):
 
 
 # example: login(username='your-student-id', password='your-password', to_url='https://ehall.nju.edu.cn:443/login?service=https://ehall.nju.edu.cn/ywtb-portal/official/index.html')
-def login(username, password, to_url):
+def login(username, password, to_url, nju_edu_cn_cookies):
     """登录并返回JSESSIONID"""
+    session = requests.Session()
+    for k,v in nju_edu_cn_cookies.items():
+        cookie = cookies.create_cookie(k, v, domain='.nju.edu.cn')
+        session.cookies.set_cookie(cookie)
+    session.headers = HEADERS_LOGIN
     url = 'https://authserver.nju.edu.cn/authserver/login?service=' + to_url
-    lt, dllt, execution, _eventId, rmShown, pwdDefaultEncryptSalt, cookies = getLoginCasData(url)
+    lt, dllt, execution, _eventId, rmShown, pwdDefaultEncryptSalt, cookies1 = getLoginCasData(url, session)
     data = dict(
         username=username,
         password=password_encrypt(password, pwdDefaultEncryptSalt),
@@ -35,26 +43,32 @@ def login(username, password, to_url):
         rmShown=rmShown,
     )
     try:
-        response = requests.post(
-            url=url,
-            headers=HEADERS_LOGIN,
-            data=data,
-            cookies=cookies,
-        )
-        for resp in response.history:
-            if resp.cookies.get('MOD_AUTH_CAS'):
-                return resp.cookies
-        if response.cookies.get('JSESSIONID'):
-            return response.cookies
+        for i in range(5):
+            veri_img_resp = session.get(url='https://authserver.nju.edu.cn/authserver/captcha.html?ts={}'.format(time.time()*1000%1000))
+            captchaResponse = get_order_time.verification(veri_img_resp.content,150)
+            data['captchaResponse']=captchaResponse,
+            response = session.post(
+                url=url,
+                # headers=HEADERS_LOGIN,
+                data=data,
+                # cookies=cookies,
+            )
+            for resp in response.history:
+                if resp.cookies.get('MOD_AUTH_CAS'):
+                    return resp.cookies
+            if response.cookies.get('JSESSIONID'):
+                return response.cookies
+            if session.cookies.get('JSESSIONID'):
+                return session.cookies
         raise Exception("login error")
     except execution as e:
         raise e
 
 
-def getLoginCasData(url):
+def getLoginCasData(url, session):
     """返回CAS数据和初始JSESSIONID"""
     try:
-        response = requests.get(
+        response = session.get(
             url=url,
             headers=HEADERS_LOGIN
         )

@@ -23,12 +23,13 @@ def convert_Image(img, standard=210):
     image = image.convert('RGB')
     return image
 
-def verification(img: bytes):
+def verification(img: bytes, standard=210):
     stream = io.BytesIO(img)
     im = PIL.Image.open(stream)
-    im = convert_Image(im)
+    im = convert_Image(im, standard)
     buf = io.BytesIO()
     im.save(buf, format='JPEG')
+    # im.show()
     ocr = ddddocr.DdddOcr(old=True)
     return ocr.classification(buf.getvalue())
 

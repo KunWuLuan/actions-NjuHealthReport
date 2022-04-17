@@ -51,9 +51,9 @@ def do_apply(cookies, WID, location, time):
         raise e
 
 
-def main(username, password, location, time):
+def main(username, password, location, time, cookies):
     # 登录
-    cookies = login(username, password, 'http://ehallapp.nju.edu.cn/xgfw/sys/yqfxmrjkdkappnju/apply/getApplyInfoList.do')
+    cookies = login(username, password, 'http://ehallapp.nju.edu.cn/xgfw/sys/yqfxmrjkdkappnju/apply/getApplyInfoList.do', cookies)
     # 获取填报列表
     apply_list = get_apply_list(cookies)
     if not apply_list[0]['TBRQ'] == utils.get_GMT8_str('%Y-%m-%d'):

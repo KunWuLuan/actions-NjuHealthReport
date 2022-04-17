@@ -19,20 +19,21 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         # print(sys.argv[1],end='\n')
         # print(re.sub('#(.*)\n', '\n', sys.argv[1]).replace("'", '"'),end='\n')
-        config.data = json.loads(re.sub('#(.*)\n', '\n', sys.argv[1]).replace("'", '"'))
+        # config.data = json.loads(re.sub('#(.*)\n', '\n', sys.argv[1]).replace("'", '"'))
         # 以下为本地测试使用
         # print(re.sub(r'\\\'', '\'', sys.argv[1]).replace("'", '"'))
-        # config.data = json.loads(re.sub(r'\\\'', '\'', sys.argv[1]).replace("'", '"'))
+        config.data = json.loads(re.sub(r'\\\'', '\'', sys.argv[1]).replace("'", '"'))
     if utils.get_GMT8_timestamp() > utils.str_to_timestamp(config.data['deadline'], '%Y-%m-%d'):
         logging.info("超出填报日期")
         exit(-1)
     # retry mechanism
     for _ in range(5):
         try:
-            time.sleep(random.randint(0, 10))
-            latest_test_time = get_order_time.get_time(config.data['username'], config.data['secret'], config.data['cookies'], config.data['default_time'])
+            latest_test_time = '2022-04-16 9'
+            # time.sleep(random.randint(0, 10))
+            # latest_test_time = get_order_time.get_time(config.data['username'], config.data['secret'], config.data['cookies'], config.data['default_time'])
 
-            spider.main(config.data['username'], config.data['password'], config.data['location'], latest_test_time)
+            spider.main(config.data['username'], config.data['password'], config.data['location'], latest_test_time, config.data['cookies'])
 
             new_secret = {
                 'username':config.data['username'],
